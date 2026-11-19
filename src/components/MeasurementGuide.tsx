@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
-import { Body, Card, Title } from './ui';
+import { InfoNote, Card, Title } from './ui';
 import { colors } from '../theme';
 export function MeasurementGuide() {
   return <Card style={{ backgroundColor: colors.mint }}>
@@ -13,7 +13,7 @@ export function MeasurementGuide() {
       </Svg>
     </View>
     <Title small>Consistent, no pressure</Title>
-    <Body>Use the same tape, method and spot each time. For arm and thigh, stick to one side. The tape should rest on the skin without squeezing.</Body>
-    <Body>This is a general illustration. A detailed placement guide will follow after professional review; circumferences don’t measure body fat %.</Body>
+    <InfoNote text="Use the same tape, method and spot each time. For arm and thigh, stick to one side. The tape should rest on the skin without squeezing." />
+    <InfoNote text="This is a general illustration. A detailed placement guide will follow after professional review; circumferences don’t measure body fat %." />
   </Card>;
 }

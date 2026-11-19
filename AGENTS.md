@@ -2,7 +2,7 @@ This is an Expo/React Native mobile application. Prioritize mobile-first pattern
 
 ## Fitli scope and product rules
 
-- English UI, left-to-right, dark "Night Arcade" game theme (tokens in `src/theme.ts`; Fredoka for display, Heebo for body). Users may type food names in Hebrew, so text inputs use `writingDirection: 'auto'`. Never revert the UI to Hebrew/RTL.
+- English UI, left-to-right, dark "Night Hustle" original street-game theme (tokens in `src/theme.ts`; Bebas Neue for display, Heebo for body). Keep it original: no copied logos, fonts, art or catchphrases from existing games. Users may type food names in Hebrew, so text inputs use `writingDirection: 'auto'`. Never revert the UI to Hebrew/RTL.
 - Game layer (`src/domain/gamification.ts`): XP, levels, streaks with a weekly shield and daily quests are DERIVED from real logs, never stored. Reward consistency, never punish; no shame language.
 - Plans saved before the English redesign contain Hebrew titles. Render stored plan text through `legacyText()`; never rewrite saved plan versions.
 - Secrets: never put API keys in code or the repo. Keys live only in Cloudflare Worker secrets; `.env*` is git-ignored and unreadable to Claude.

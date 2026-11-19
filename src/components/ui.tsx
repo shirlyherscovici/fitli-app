@@ -1,8 +1,9 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleProp, StyleSheet, Text, TextInput, TextInputProps, TextProps, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, fonts, hardShadow, radius, rtlRow, rtlStart, rtlTextAlign, textOutline } from '../theme';
 import { Icon, IconName } from './Icon';
+import { CityBackdrop } from './CityBackdrop';
 import { useAppData } from '../data/AppProvider';
 
 export function Txt({ style, ...props }: TextProps) {
@@ -64,9 +65,10 @@ export function Chips({ children }: { children: ReactNode }) { return <Row style
 export function Badge({ text, kind = 'green' }: { text: string; kind?: 'green' | 'example' }) {
   return <View style={[styles.badge, kind === 'example' && { borderLeftColor: colors.purple }]}><Txt style={{ fontFamily: fonts.display, fontSize: 15, lineHeight: 20, letterSpacing: 1.5, textTransform: 'uppercase', color: kind === 'example' ? colors.purple : colors.yellow }}>{text}</Txt></View>;
 }
-export function Page({ children, title, subtitle, onClose, footer, scrollKey }: { children: ReactNode; title?: string; subtitle?: string; onClose?: () => void; footer?: ReactNode; scrollKey?: number | string }) {
+export function Page({ children, title, subtitle, onClose, footer, scrollKey, backdrop = 'short' }: { children: ReactNode; title?: string; subtitle?: string; onClose?: () => void; footer?: ReactNode; scrollKey?: number | string; backdrop?: 'tall' | 'short' }) {
   const insets = useSafeAreaInsets();
   return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1, backgroundColor: colors.background }}>
+    <CityBackdrop height={backdrop === 'tall' ? 330 : 170} sun={backdrop === 'tall'} />
     <View style={{ flex: 1, paddingTop: insets.top }}>
       {!!title && <Row style={styles.pageHeader}><View style={{ flex: 1 }}><Title small>{title}</Title>{!!subtitle && <Body>{subtitle}</Body>}</View>{onClose && <IconButton name="close" label="Close" onPress={onClose} />}</Row>}
       <ScrollView key={scrollKey} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" automaticallyAdjustKeyboardInsets
@@ -74,6 +76,18 @@ export function Page({ children, title, subtitle, onClose, footer, scrollKey }: 
       {footer && <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 16) }]}>{footer}</View>}
     </View>
   </KeyboardAvoidingView>;
+}
+// Long explanations stay one tap away instead of filling the screen.
+export function InfoNote({ text, label = 'Details' }: { text: string; label?: string }) {
+  const [open, setOpen] = useState(false);
+  return <View style={{ gap: 4 }}>
+    <Pressable accessibilityRole="button" accessibilityLabel={`${label}: ${open ? 'hide' : 'show'}`} accessibilityState={{ expanded: open }} onPress={() => setOpen(!open)}
+      style={({ pressed }) => [{ flexDirection: rtlRow, alignItems: 'center', gap: 6, minHeight: 44, alignSelf: rtlStart }, pressed && { opacity: 0.7 }]}>
+      <View style={{ width: 20, height: 20, borderRadius: 10, borderWidth: 2, borderColor: colors.cyan, alignItems: 'center', justifyContent: 'center' }}><Txt style={{ fontFamily: fonts.bold, fontSize: 12, lineHeight: 14, color: colors.cyan }}>{open ? '–' : 'i'}</Txt></View>
+      <Txt style={{ fontFamily: fonts.display, fontSize: 17, lineHeight: 20, letterSpacing: 1.5, textTransform: 'uppercase', color: colors.cyan }}>{label}</Txt>
+    </Pressable>
+    {open && <Txt style={styles.body}>{text}</Txt>}
+  </View>;
 }
 export function EmptyState({ title, text, action }: { title: string; text: string; action?: ReactNode }) {
   return <Card style={{ alignItems: 'stretch', gap: 14, backgroundColor: colors.mint }}><View style={styles.emptyIcon}><Icon name="leaf" size={30} /></View><Title small>{title}</Title><Body>{text}</Body>{action}</Card>;

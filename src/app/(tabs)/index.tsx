@@ -5,7 +5,7 @@ import { Avatar } from '../../components/Avatar';
 import { Companion } from '../../components/Companion';
 import { GameHud, QuestList } from '../../components/GameHud';
 import { NutritionSummary } from '../../components/NutritionSummary';
-import { Badge, Body, Button, Card, IconButton, Page, Row, Title, Txt } from '../../components/ui';
+import { InfoNote, Badge, Body, Button, Card, IconButton, Page, Row, Title, Txt } from '../../components/ui';
 import { useAppData } from '../../data/AppProvider';
 import { activityByDay, dailyQuests, gameState } from '../../domain/gamification';
 import { currentDayIndex, latestPlan } from '../../domain/planning';
@@ -30,7 +30,7 @@ export default function Today() {
     : isRest ? 'Recovery is part of the plan. Log your rest day to keep the streak.'
     : 'One step at a time. A meal or a workout — start with whatever fits right now.';
 
-  return <Page>
+  return <Page backdrop="tall">
     <Row style={{ justifyContent: 'space-between', alignItems: 'flex-start', flexDirection: compactHeader ? 'column' : 'row' }}>
       <View style={{ flex: compactHeader ? undefined : 1 }}>
         <Txt style={{ color: colors.green, fontFamily: fonts.display, fontSize: 30, lineHeight: 32, letterSpacing: 4, textShadowColor: colors.purple, textShadowOffset: { width: 3, height: 3 }, textShadowRadius: 0 }}>FITLI</Txt>
@@ -43,11 +43,12 @@ export default function Today() {
       </Row>
     </Row>
 
+    <View style={{ height: 70 }} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" />
     <GameHud state={game} />
 
     {!plan ? <Card style={{ backgroundColor: colors.peach, borderColor: colors.peachEdge }}>
       <Title small>Let’s build your plan</Title>
-      <Body>Your profile and measurements are saved. Fill in the new details and we’ll build a weekly schedule and nutrition targets.</Body>
+      <InfoNote text="Your profile and measurements are saved. Fill in the new details and we’ll build a weekly schedule and nutrition targets." />
       <Button label="Build my plan" icon="arrow" onPress={() => router.push('/profile')} />
     </Card> : <Card style={{ backgroundColor: isRest ? colors.mint : colors.peach, borderLeftWidth: 6, borderLeftColor: isRest ? colors.lime : colors.purple }}>
       <Row style={{ justifyContent: 'space-between', flexWrap: 'wrap' }}>

@@ -10,6 +10,7 @@ import { Heebo_700Bold } from '@expo-google-fonts/heebo/700Bold';
 import { Heebo_800ExtraBold } from '@expo-google-fonts/heebo/800ExtraBold';
 import { BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue/400Regular';
 import { AppProvider, useAppData } from '../data/AppProvider';
+import { MissionComplete } from '../components/MissionComplete';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { Body, Button, Card, Page, Title } from '../components/ui';
 import { colors } from '../theme';
@@ -34,5 +35,5 @@ function Routes() {
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({ Heebo_400Regular, Heebo_500Medium, Heebo_700Bold, Heebo_800ExtraBold, BebasNeue_400Regular });
   if (!fontsLoaded && !fontError) return <View style={{ flex: 1, backgroundColor: colors.background, justifyContent: 'center' }}><ActivityIndicator color={colors.green} /></View>;
-  return <SafeAreaProvider><AppProvider><StatusBar style="light" /><Routes /></AppProvider></SafeAreaProvider>;
+  return <SafeAreaProvider><AppProvider><StatusBar style="light" /><Routes /><MissionComplete /></AppProvider></SafeAreaProvider>;
 }

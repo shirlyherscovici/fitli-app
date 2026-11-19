@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Comparison, formatNumber } from '../domain/progress';
 import { metrics } from '../domain/types';
 import { colors, rtlStart } from '../theme';
-import { Body, Row, Txt } from './ui';
+import { InfoNote, Body, Row, Txt } from './ui';
 export function ComparisonChart({ comparisons }: { comparisons: Comparison[] }) {
   return <View style={{ gap: 22 }}>
     <Row style={{ flexWrap: 'wrap' }}><View style={{ width: 12, height: 12, borderRadius: 4, backgroundColor: colors.muted }} /><Body>A · earlier measurement</Body><View style={{ width: 12, height: 12, borderRadius: 4, backgroundColor: colors.green }} /><Body>B · later measurement</Body></Row>
@@ -20,6 +20,6 @@ export function ComparisonChart({ comparisons }: { comparisons: Comparison[] }) 
         </View>)}
       </View>;
     })}
-    <Body>Bars are scaled per metric from zero. Missing values, different sides or methods aren’t shown as a valid comparison.</Body>
+    <InfoNote text="Bars are scaled per metric from zero. Missing values, different sides or methods aren’t shown as a valid comparison." />
   </View>;
 }

@@ -9,7 +9,7 @@ import { colors, fonts } from '../theme';
 import { AvatarPicker } from './AvatarPicker';
 import { Companion } from './Companion';
 import { legacyText } from '../domain/legacyText';
-import { Badge, Body, Button, Card, Chip, Chips, ErrorNotice, Field, Page, Row, Title, Txt } from './ui';
+import { InfoNote, Badge, Body, Button, Card, Chip, Chips, ErrorNotice, Field, Page, Row, Title, Txt } from './ui';
 
 const steps = ['Your profile', 'Training type', 'Your goals', 'Life & preferences', 'Your plan'];
 const descriptions = ['Calculation data and avatar look are separate choices.', 'Pick the kind of movement that suits you.', 'Body, weight and running goals — each on its own.', 'Leave room for rest too.', 'Review, build and save.'];
@@ -103,7 +103,7 @@ export function ProfileForm({ editing = false, onDone, onClose }: { editing?: bo
   if (!started) return <Page footer={<Button label="Build my plan" icon="arrow" onPress={() => setStarted(true)} />}>
     <Txt style={{ fontFamily: fonts.heavy, color: colors.purple, fontSize: 22 }}>FITLI</Txt>
     <Card style={{ backgroundColor: colors.lavender, paddingVertical: 32 }}><Badge text="Start at your pace" /><Title>A plan made for you.{ '\n' }Habits for life.</Title><Body>We’ll build a training and nutrition plan that fits you, level up together and track your progress.</Body><Companion message="Nice to meet you! I’m here for every small step." /></Card>
-    <Title small>Five steps, one journey</Title><Body>Tell us about you, pick training and goals, and plan your week. Your draft is saved so you can come back anytime.</Body>
+    <Title small>Five steps, one journey</Title><InfoNote text="Tell us about you, pick training and goals, and plan your week. Your draft is saved so you can come back anytime." />
     <Body>One local profile on this device. No sign-up; browser and phone data are stored separately.</Body>
   </Page>;
   return <Page title={editing ? 'Update profile and plan' : 'Build my plan'} onClose={onClose ? close : undefined} scrollKey={step} footer={<>
@@ -156,7 +156,7 @@ export function ProfileForm({ editing = false, onDone, onClose }: { editing?: bo
       </Card>}
       <Field label="Limitations and things to remember" value={p.limitations} onChangeText={limitations => patch({ limitations })} multiline maxLength={500} placeholder="Can be left empty" />
       <Title small>Your nutrition</Title><Txt>Activity across the whole day · including workouts</Txt><Chips>{(Object.keys(activityLabels) as (keyof typeof activityLabels)[]).map(activity => <Chip key={activity} label={activityLabels[activity]} selected={p.activity === activity} onPress={() => patch({ activity })} />)}</Chips>
-      <Txt>Fit for nutrition and body composition estimates</Txt><Body>These formulas are for healthy adults; they don’t suit pregnancy, breastfeeding or conditions needing clinical planning.</Body><Chips><Chip label="Healthy adult · fits me" selected={p.healthContext === 'general'} onPress={() => patch({ healthContext:'general' })} /><Chip label="Needs professional guidance" selected={p.healthContext === 'special'} onPress={() => patch({ healthContext:'special' })} /></Chips>
+      <Txt>Fit for nutrition and body composition estimates</Txt><InfoNote text="These formulas are for healthy adults; they don’t suit pregnancy, breastfeeding or conditions needing clinical planning." /><Chips><Chip label="Healthy adult · fits me" selected={p.healthContext === 'general'} onPress={() => patch({ healthContext:'general' })} /><Chip label="Needs professional guidance" selected={p.healthContext === 'special'} onPress={() => patch({ healthContext:'special' })} /></Chips>
       <Field label="Food preferences & kashrut" value={p.nutritionPreferences} onChangeText={nutritionPreferences => patch({ nutritionPreferences })} multiline maxLength={500} placeholder="Eating style, meal times, cooking time" />
       <Field label="Allergies & food restrictions" hint="Saved to your profile; sample meals aren’t filtered by allergies yet." value={p.allergies} onChangeText={allergies => patch({ allergies })} maxLength={500} placeholder="Can be left empty" />
       <Field label="Personal calorie target you were given · optional" hint="If empty: maintenance estimate. A weight-loss goal doesn’t cut calories automatically; you can enter a target set with a dietitian." numeric value={f.calories} onChangeText={v => field('calories',v)} placeholder="e.g. 2000" maxLength={7} />
@@ -164,10 +164,10 @@ export function ProfileForm({ editing = false, onDone, onClose }: { editing?: bo
     {step === 4 && <>
       <Companion message="Almost there! The plan gives direction; your logs tell what really happened." />
       <Card><Title small>{p.name}, This is your path</Title><Txt>{trainings[p.training]} · {goals[p.primaryGoal]}</Txt><Body>Goal weight: {f.targetWeight ? `${f.targetWeight} kg` : 'Not set'}{running ? ` · Running goal: ${f.runDistance || 'Not set'} km · ${f.runPace || 'no pace set'}` : ''}</Body><Button label="Edit goals" variant="quiet" onPress={() => setDraft({ ...draft,step:2 })} /></Card>
-      {preview && <><Card><Title small>Your planned week</Title>{preview.weekly.map(s => <Row key={s.day} style={{ justifyContent:'space-between',flexWrap:'wrap' }}><Txt>{weekDays[s.day]}</Txt><Txt style={{ fontFamily:fonts.medium }}>{legacyText(s.title)}{s.duration ? ` · ${s.duration} min` : ''}</Txt></Row>)}<Badge text="Workout content is sample content" kind="example" /><Body>Schedule follows the days you picked. Exercises, intensity and personal paces still need professionally reviewed templates.</Body></Card>
+      {preview && <><Card><Title small>Your planned week</Title>{preview.weekly.map(s => <Row key={s.day} style={{ justifyContent:'space-between',flexWrap:'wrap' }}><Txt>{weekDays[s.day]}</Txt><Txt style={{ fontFamily:fonts.medium }}>{legacyText(s.title)}{s.duration ? ` · ${s.duration} min` : ''}</Txt></Row>)}<Badge text="Workout content is sample content" kind="example" /><InfoNote text="Schedule follows the days you picked. Exercises, intensity and personal paces still need professionally reviewed templates." /></Card>
         <Card style={{ backgroundColor:colors.mint }}><Title small>Nutrition targets</Title>{preview.nutrition ? <><Txt style={{ fontSize:28,lineHeight:40,fontFamily:fonts.heavy }}>{Math.round(preview.nutrition.calories)} kcal</Txt><Body>Protein {Math.round(preview.nutrition.protein)} g · Fat {Math.round(preview.nutrition.fat)} g · Carbs {Math.round(preview.nutrition.carbs)} g</Body><Badge text="Personal planning estimate" /><Body>{preview.nutrition.method === 'mifflin-pal-v1' ? 'Mifflin–St Jeor × daily activity. Maintenance estimate, with no automatic deficit or surplus for your goal.' : 'Personal target you entered. The macro split is a starting point within AMDR.'} No verified personal menu yet.</Body></> : <><Body>To calculate a target, complete:: {preview.nutritionMissing.map(legacyText).join(' · ')}.</Body><Button label="Complete profile details" variant="secondary" onPress={() => setDraft({ ...draft,step:0 })} /></>}</Card>
       </>}
-      <Body>Saving stores your profile, goals and plan. Existing logs stay; targets already set for today and earlier don’t change.</Body>
+      <InfoNote text="Saving stores your profile, goals and plan. Existing logs stay; targets already set for today and earlier don’t change." />
     </>}
   </Page>;
 }

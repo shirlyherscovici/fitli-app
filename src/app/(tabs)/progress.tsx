@@ -9,7 +9,7 @@ import { Journal } from '../../components/Journal';
 import { NutritionSummary } from '../../components/NutritionSummary';
 import { ComparisonChart } from '../../components/ComparisonChart';
 import { WeightTrend } from '../../components/WeightTrend';
-import { Badge, Body, Button, Card, Chip, Chips, EmptyState, ErrorNotice, Page, Row, Title, Txt } from '../../components/ui';
+import { InfoNote, Badge, Body, Button, Card, Chip, Chips, EmptyState, ErrorNotice, Page, Row, Title, Txt } from '../../components/ui';
 import { useAppData } from '../../data/AppProvider';
 import { avatarComparison, compareMeasurements, formatDelta, formatNumber, sortMeasurements } from '../../domain/progress';
 import { metricKeys, metrics } from '../../domain/types';
@@ -53,7 +53,7 @@ export default function Progress() {
       {list.length === 1 && <EmptyState title="First data point — great start" text="To compare, you need one more entry. Your avatar stays as chosen until there are measurements from two points in time." />}
       {weightPoints.length >= 2 && <Card><WeightTrend measurements={data!.measurements} profile={data!.profile!} /></Card>}
       {list.length >= 2 && <>
-        <Card><Title small>Two points, one journey</Title><Body>Pick two entries. They’re shown oldest to newest; two entries from the same day are kept separately.</Body>
+        <Card><Title small>Two points, one journey</Title><InfoNote text="Pick two entries. They’re shown oldest to newest; two entries from the same day are kept separately." />
           <Button label={`A · ${displayDate(before!.date)} · Entry ${list.indexOf(before!) + 1}`} variant="secondary" onPress={() => setPicker(picker === 'before' ? null : 'before')} />
           <Button label={`B · ${displayDate(after!.date)} · Entry ${list.indexOf(after!) + 1}`} variant="secondary" onPress={() => setPicker(picker === 'after' ? null : 'after')} />
           {picker && <View style={{ gap: 10 }}><Txt>Choose {picker === 'before' ? 'point A' : 'point B'}</Txt><Chips>{list.map((m, i) => <Chip key={m.id} label={`${displayDate(m.date)} · Entry ${i + 1}`} selected={m.id === (picker === 'before' ? before?.id : after?.id)} onPress={() => {
@@ -76,7 +76,7 @@ export default function Progress() {
             </Row>
             <Txt style={{ fontFamily: fonts.medium }}>Stylised illustration based on your data</Txt>
             <Body>{avatarInfo.comparable ? 'Only circumferences measured in both entries, on the same side, affect the illustration. Changes are subtle; a circumference can grow or shrink.' : 'To visualise change, you need the same circumference in both entries (same side for arm or thigh). Weight alone doesn’t change the avatar’s shape.'}</Body>
-            <Body>This is an illustration — not a body scan, reconstruction or prediction. You can hide it in settings.</Body>
+            <InfoNote text="This is an illustration — not a body scan, reconstruction or prediction. You can hide it in settings." />
           </Card> : <Card><Body>The body illustration is hidden per your preference. The numbers are still available.</Body><Button label="Illustration settings" variant="quiet" onPress={() => router.push('/settings')} /></Card>}
         </>}
       </>}

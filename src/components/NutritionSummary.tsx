@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import { useAppData } from '../data/AppProvider';
 import { macroLabels, summarizeMeals } from '../domain/nutrition';
 import { colors, fonts, rtlStart } from '../theme';
-import { Badge, Body, Button, Card, ErrorNotice, Row, Title, Txt } from './ui';
+import { InfoNote, Badge, Body, Button, Card, ErrorNotice, Row, Title, Txt } from './ui';
 
 const number = (v: number) => new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 }).format(v);
 const calories = (v: number) => new Intl.NumberFormat('en-US', { maximumFractionDigits:0 }).format(v);
@@ -36,7 +36,7 @@ export function NutritionSummary({ compact = false, date, logAction = false }: {
       </View>;
     })}
     {summary.partial && <ErrorNotice text="Some meals are missing values. Known totals are marked 'at least'; missing remainders and percentages are never shown as zero." />}
-    {!compact && <><Button label={details ? 'Hide the math' : 'How are targets calculated?'} variant="quiet" onPress={() => setDetails(!details)} />{details && <Body>Energy split uses 4/9/4 kcal per gram. Label rounding, fibre and alcohol can make totals differ from 100%. The target is a planning estimate; workouts don’t add calories back.</Body>}</>}
+    {!compact && <><Button label={details ? 'Hide the math' : 'How are targets calculated?'} variant="quiet" onPress={() => setDetails(!details)} />{details && <InfoNote text="Energy split uses 4/9/4 kcal per gram. Label rounding, fibre and alcohol can make totals differ from 100%. The target is a planning estimate; workouts don’t add calories back." />}</>}
     {dayError && <><ErrorNotice text="We couldn't save today's target. Try again — previous targets are safe." /><Button label="Retry saving today's target" variant="secondary" onPress={retryDay} /></>}
   </Card>;
 }

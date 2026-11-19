@@ -2,7 +2,7 @@ import React from 'react';
 import { View, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { Avatar } from './Avatar';
-import { Body, Button, Card, Row, Title, Txt } from './ui';
+import { InfoNote, Body, Button, Card, Row, Title, Txt } from './ui';
 import { useAppData } from '../data/AppProvider';
 import { formatNumber } from '../domain/progress';
 import { projectGoalShape } from '../domain/goal';
@@ -28,7 +28,7 @@ export function GoalProgress() {
           <Txt style={{ textAlign: 'center', color: colors.muted }}>{formatNumber(goal.targetWeight)} kg</Txt>
         </View>
       </Row>
-      <Body>Stylised illustration only: body size change is roughly estimated from the square root of goal-to-start weight ratio, assuming constant height and density. It’s not a medical prediction and isn’t based on measured circumferences at the goal — only the weight you set.</Body>
+      <InfoNote text="Stylised illustration only: body size change is roughly estimated from the square root of goal-to-start weight ratio, assuming constant height and density. It’s not a medical prediction and isn’t based on measured circumferences at the goal — only the weight you set." />
     </> : <><Body>{goal.reason}</Body>
       {goal.targetWeight === null && <Button label="Set a goal weight in your profile" variant="secondary" onPress={() => router.push('/profile')} />}
     </>}

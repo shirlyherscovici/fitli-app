@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { AccessibilityInfo, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { Badge, Body, Button, Card, Chip, Chips, ErrorNotice, Field, Page, Txt } from '../components/ui';
+import { InfoNote, Badge, Body, Button, Card, Chip, Chips, ErrorNotice, Field, Page, Txt } from '../components/ui';
 import { MeasurementGuide } from '../components/MeasurementGuide';
 import { useAppData } from '../data/AppProvider';
 import { buildMeasurement, MeasurementDraft } from '../domain/measurementForm';
@@ -40,7 +40,7 @@ export default function MeasurementScreen() {
     saving.current = true; setBusy(true);
     try {
       await saveMeasurement(measurement, !!existing);
-      AccessibilityInfo.announceForAccessibility(existing ? 'Measurement updated' : 'Measurement saved. Every log is a step forward. +30 XP');
+      AccessibilityInfo.announceForAccessibility(existing ? 'Measurement updated' : 'Measurement saved.');
       goBackOrHome();
     } catch { const message = 'Couldn’t save on this device. Your values are still in the form; try again.'; setError(message); AccessibilityInfo.announceForAccessibility(message); }
     finally { saving.current = false; setBusy(false); }
@@ -60,7 +60,7 @@ export default function MeasurementScreen() {
       return <View key={key} style={{ gap: 10 }}>
         <Field label={`${metric.label} (${metric.unit}) · optional`} hint={previous === null ? 'No value in your previous entry' : `Last entry: ${formatNumber(previous)} ${metric.unit}${sideLabel}`} numeric maxLength={6} placeholder="Not measured" value={values[key]} onChangeText={text => setValues({ ...values, [key]: text })} />
         {limb && <Chips>{(['right', 'left'] as Side[]).map(side => <Chip key={side} label={`${metric.label} · ${side === 'right' ? 'right' : 'left'}`} selected={sides[key] === side} onPress={() => setSides({ ...sides, [key]: side })} />)}</Chips>}
-        {key === 'waist' && <><Txt>Waist measuring method</Txt><Chips><Chip label="Other or unknown method" selected={waistMethod === 'unknown'} onPress={() => setWaistMethod('unknown')} /><Chip label="NHANES · Top of hip bone" selected={waistMethod === 'nhanes-iliac'} onPress={() => setWaistMethod('nhanes-iliac')} /></Chips><Body>To choose NHANES: standing, tape horizontal at the top of the right hip bone, without squeezing, at the end of a normal breath out. This isn’t necessarily the narrowest point or navel height. Choose it only if you measured this way; older measurements aren’t tagged automatically.</Body></>}
+        {key === 'waist' && <><Txt>Waist measuring method</Txt><Chips><Chip label="Other or unknown method" selected={waistMethod === 'unknown'} onPress={() => setWaistMethod('unknown')} /><Chip label="NHANES · Top of hip bone" selected={waistMethod === 'nhanes-iliac'} onPress={() => setWaistMethod('nhanes-iliac')} /></Chips><InfoNote text="To choose NHANES: standing, tape horizontal at the top of the right hip bone, without squeezing, at the end of a normal breath out. This isn’t necessarily the narrowest point or navel height. Choose it only if you measured this way; older measurements aren’t tagged automatically." /></>}
       </View>;
     })}
     <Txt style={{ fontSize: 13, color: colors.muted, fontFamily: fonts.medium }}>One value is enough to save. No need to fill everything.</Txt>
