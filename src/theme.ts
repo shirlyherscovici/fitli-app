@@ -1,16 +1,22 @@
-// Fitli "Night Arcade" theme: dark, vivid, game-like. English UI, left-to-right.
-// Token names are kept from the first prototype so every screen switches at once:
-// `green` is the primary (violet), `sage` the selected fill, `mint`/`peach` the
-// calm/energy card tints.
+// Fitli "Night Hustle" theme: an original open-world street-game look.
+// Asphalt black, sunset orange + neon pink, cash-green XP, sharp corners and
+// hard black shadows. Token names are kept from the first prototype so every
+// screen follows: `green` is the primary (sunset orange), `sage` the selected
+// fill, `mint`/`peach` the success/mission tints.
 export const colors = {
-  background: '#0E0B1A', surface: '#1A1530', raised: '#241D42', ink: '#F4F0FF', muted: '#A99FC6',
-  green: '#8B5CF6', greenDark: '#C9B5FF', primaryEdge: '#5B32C9', onPrimary: '#FFFFFF',
-  sage: '#2C2254', mint: '#11291F', mintEdge: '#1F5A42', peach: '#2E1922', peachEdge: '#6B2E3B',
-  line: '#2F2852', lavender: '#221B3E', terracotta: '#FF9B7A',
-  purple: '#B794FF', coral: '#FF7A5C', lime: '#C6FF4A', yellow: '#FFD23F', teal: '#3DD9A7', cyan: '#4CC9FF',
-  error: '#FF6B78', errorLight: '#3A1720', track: '#2F2852',
+  background: '#0A0A0D', surface: '#15151B', raised: '#1F1F28', ink: '#FFFFFF', muted: '#A3A3B2',
+  green: '#FF7A1A', greenDark: '#FFB066', primaryEdge: '#9C3F00', onPrimary: '#0A0A0D',
+  sage: '#2B1708', mint: '#0D2213', mintEdge: '#2E8B45', peach: '#1E0F14', peachEdge: '#FF2E88',
+  line: '#2C2C38', lavender: '#121218', terracotta: '#FFB066',
+  purple: '#FF2E88', coral: '#FF4D4D', lime: '#5CE65C', yellow: '#FFD400', teal: '#5CE65C', cyan: '#2EE6FF',
+  error: '#FF4D4D', errorLight: '#2A0E10', track: '#26262F', shadow: '#000000',
 };
-export const xpGradient = ['#C6FF4A', '#3DD9A7'] as const;
+export const sunset = ['#FFB000', '#FF7A1A', '#FF2E88', '#7B2CFF'] as const;
+export const radius = { card: 6, control: 4 };
+// Hard offset shadow, like a sticker on a city wall. Works on web and iOS;
+// Android uses `elevation` as a soft fallback.
+export const hardShadow = { shadowColor: '#000', shadowOffset: { width: 4, height: 4 }, shadowOpacity: 1, shadowRadius: 0, elevation: 6 };
+export const textOutline = { textShadowColor: '#000', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 0 };
 // The UI is English and left-to-right. The old rtl* helpers now resolve to LTR
 // values so existing screens follow the new direction without per-file edits.
 export const rtlRow = 'row';
@@ -18,6 +24,7 @@ export const rtlTextAlign = 'left';
 export const rtlStart = 'flex-start';
 export const fonts = {
   regular: 'Heebo_400Regular', medium: 'Heebo_500Medium', bold: 'Heebo_700Bold', heavy: 'Heebo_800ExtraBold',
-  // Rounded display face for titles, numbers and game UI. Fredoka also covers Hebrew.
-  display: 'Fredoka_600SemiBold', displayBold: 'Fredoka_700Bold',
+  // Condensed street display face for titles, numbers and HUD (Latin only; Hebrew
+  // user text always renders in Heebo).
+  display: 'BebasNeue_400Regular', displayBold: 'BebasNeue_400Regular',
 };

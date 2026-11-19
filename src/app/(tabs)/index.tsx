@@ -33,8 +33,8 @@ export default function Today() {
   return <Page>
     <Row style={{ justifyContent: 'space-between', alignItems: 'flex-start', flexDirection: compactHeader ? 'column' : 'row' }}>
       <View style={{ flex: compactHeader ? undefined : 1 }}>
-        <Txt style={{ color: colors.purple, fontFamily: fonts.displayBold, fontSize: 18, letterSpacing: 1 }}>FITLI</Txt>
-        <Title small>Hey {profile.name} 👋</Title>
+        <Txt style={{ color: colors.green, fontFamily: fonts.display, fontSize: 30, lineHeight: 32, letterSpacing: 4, textShadowColor: colors.purple, textShadowOffset: { width: 3, height: 3 }, textShadowRadius: 0 }}>FITLI</Txt>
+        <Title small>Welcome back, {profile.name}</Title>
         <Body>{weekDaysEn[currentDayIndex(today)]} · {prettyDate(today)}</Body>
       </View>
       <Row>
@@ -49,13 +49,13 @@ export default function Today() {
       <Title small>Let’s build your plan</Title>
       <Body>Your profile and measurements are saved. Fill in the new details and we’ll build a weekly schedule and nutrition targets.</Body>
       <Button label="Build my plan" icon="arrow" onPress={() => router.push('/profile')} />
-    </Card> : <Card style={{ backgroundColor: isRest ? colors.mint : colors.peach, borderColor: isRest ? colors.mintEdge : colors.peachEdge }}>
+    </Card> : <Card style={{ backgroundColor: isRest ? colors.mint : colors.peach, borderLeftWidth: 6, borderLeftColor: isRest ? colors.lime : colors.purple }}>
       <Row style={{ justifyContent: 'space-between', flexWrap: 'wrap' }}>
-        <Badge text={isRest ? 'RECOVERY DAY' : 'TODAY\'S MISSION'} />
-        {session?.example && <Badge text="SAMPLE CONTENT" kind="example" />}
+        <Badge text={isRest ? 'Side mission · recovery' : 'Main mission'} />
+        {session?.example && <Badge text="Sample content" kind="example" />}
       </Row>
-      <Txt style={{ fontFamily: fonts.displayBold, fontSize: 24, lineHeight: 30 }}>{legacyText(session?.title ?? '')}</Txt>
-      <Body>{isRest ? 'Recovery is part of training. No extra workout needed today.' : `${session?.duration} min planned · ${trainedToday ? '✅ done today' : 'not logged yet'}`}</Body>
+      <Txt style={{ fontFamily: fonts.display, fontSize: 38, lineHeight: 40, letterSpacing: 1, textTransform: 'uppercase', textShadowColor: colors.shadow, textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 0 }}>{legacyText(session?.title ?? '')}</Txt>
+      <Txt style={{ color: colors.yellow, fontFamily: fonts.medium }}>{isRest ? 'Objective: recover. Log your rest day to keep the streak.' : trainedToday ? 'Objective complete — nice work.' : `Objective: train ${session?.duration} min today · +50 XP`}</Txt>
       <Button label={isRest ? 'Open rest day' : trainedToday ? 'Log another session' : 'Start workout'} icon={isRest ? 'leaf' : 'dumbbell'} onPress={() => router.push('/workout')} />
       <Button label="See my week" variant="quiet" onPress={() => router.navigate('/plan')} />
     </Card>}

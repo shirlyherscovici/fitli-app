@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleProp, StyleSheet, Text, TextInput, TextInputProps, TextProps, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors, fonts, rtlRow, rtlStart, rtlTextAlign } from '../theme';
+import { colors, fonts, hardShadow, radius, rtlRow, rtlStart, rtlTextAlign, textOutline } from '../theme';
 import { Icon, IconName } from './Icon';
 import { useAppData } from '../data/AppProvider';
 
@@ -12,7 +12,7 @@ export function Txt({ style, ...props }: TextProps) {
   return <Text accessibilityLanguage="en" allowFontScaling {...props} style={[textStyle,{ fontSize:(textStyle.fontSize ?? 16)*scale,lineHeight:(textStyle.lineHeight ?? 26)*scale }]} />;
 }
 export function Title({ children, small = false }: { children: ReactNode; small?: boolean }) {
-  return <Txt accessibilityRole="header" style={[styles.title, small && { fontSize: 22, lineHeight: 32 }]}>{children}</Txt>;
+  return <Txt accessibilityRole="header" style={[styles.title, small && { fontSize: 28, lineHeight: 32 }]}>{children}</Txt>;
 }
 export function Body({ children }: { children: ReactNode }) { return <Txt style={styles.body}>{children}</Txt>; }
 export function Card({ children, style }: { children: ReactNode; style?: StyleProp<ViewStyle> }) {
@@ -62,7 +62,7 @@ export function Chip({ label, selected, onPress, multiple = false }: { label: st
 }
 export function Chips({ children }: { children: ReactNode }) { return <Row style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }}>{children}</Row>; }
 export function Badge({ text, kind = 'green' }: { text: string; kind?: 'green' | 'example' }) {
-  return <View style={[styles.badge, kind === 'example' && { backgroundColor: colors.peach }]}><Txt style={{ fontSize: 12, lineHeight: 20, fontFamily: fonts.display, letterSpacing: 0.4, color: kind === 'example' ? colors.terracotta : colors.greenDark }}>{text}</Txt></View>;
+  return <View style={[styles.badge, kind === 'example' && { borderLeftColor: colors.purple }]}><Txt style={{ fontFamily: fonts.display, fontSize: 15, lineHeight: 20, letterSpacing: 1.5, textTransform: 'uppercase', color: kind === 'example' ? colors.purple : colors.yellow }}>{text}</Txt></View>;
 }
 export function Page({ children, title, subtitle, onClose, footer, scrollKey }: { children: ReactNode; title?: string; subtitle?: string; onClose?: () => void; footer?: ReactNode; scrollKey?: number | string }) {
   const insets = useSafeAreaInsets();
@@ -80,23 +80,23 @@ export function EmptyState({ title, text, action }: { title: string; text: strin
 }
 export const styles = StyleSheet.create({
   text: { fontFamily: fonts.regular, fontSize: 16, lineHeight: 26, color: colors.ink, textAlign: rtlTextAlign },
-  title: { fontFamily: fonts.displayBold, fontSize: 32, lineHeight: 40, letterSpacing: -0.2 },
+  title: { fontFamily: fonts.displayBold, fontSize: 40, lineHeight: 44, letterSpacing: 1, textTransform: 'uppercase', ...textOutline },
   body: { color: colors.muted, fontSize: 15, lineHeight: 25 },
-  card: { backgroundColor: colors.surface, borderRadius: 24, padding: 20, gap: 14, borderWidth: 1.5, borderBottomWidth: 5, borderColor: colors.line },
+  card: { backgroundColor: colors.surface, borderRadius: radius.card, padding: 18, gap: 14, borderWidth: 2, borderColor: colors.shadow, borderTopWidth: 3, borderTopColor: colors.line, ...hardShadow },
   row: { flexDirection: rtlRow, alignItems: 'center', gap: 10 },
-  button: { flexDirection: rtlRow, gap: 10, alignItems: 'center', justifyContent: 'center', paddingVertical: 14, paddingHorizontal: 20, minHeight: 56, borderRadius: 18, backgroundColor: colors.green, borderBottomWidth: 5, borderColor: colors.primaryEdge },
-  buttonLabel: { fontFamily: fonts.display, fontSize: 17, letterSpacing: 0.3, textAlign: 'center', flexShrink: 1 },
-  secondary: { backgroundColor: colors.raised, borderWidth: 1.5, borderBottomWidth: 5, borderColor: colors.line },
-  quiet: { backgroundColor: 'transparent', borderBottomWidth: 0 }, danger: { backgroundColor: colors.errorLight, borderColor: '#6B2330' },
-  iconButton: { width: 48, height: 48, justifyContent: 'center', alignItems: 'center', borderRadius: 17, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line },
+  button: { flexDirection: rtlRow, gap: 10, alignItems: 'center', justifyContent: 'center', paddingVertical: 14, paddingHorizontal: 20, minHeight: 56, borderRadius: radius.control, backgroundColor: colors.green, borderWidth: 2, borderColor: colors.shadow, ...hardShadow },
+  buttonLabel: { fontFamily: fonts.display, fontSize: 22, lineHeight: 26, letterSpacing: 1.5, textTransform: 'uppercase', textAlign: 'center', flexShrink: 1 },
+  secondary: { backgroundColor: colors.raised, borderWidth: 2, borderColor: colors.shadow },
+  quiet: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 }, danger: { backgroundColor: colors.errorLight, borderColor: '#6B2330' },
+  iconButton: { width: 48, height: 48, justifyContent: 'center', alignItems: 'center', borderRadius: radius.control, backgroundColor: colors.surface, borderWidth: 2, borderColor: colors.shadow, ...hardShadow },
   label: { fontFamily: fonts.medium }, hint: { fontSize: 13, lineHeight: 22, color: colors.muted },
-  input: { minHeight: 56, paddingHorizontal: 16, paddingVertical: 12, borderRadius: 16, borderWidth: 1.5, borderColor: colors.line, backgroundColor: colors.background, color: colors.ink, fontFamily: fonts.regular, fontSize: 18, textAlign: rtlTextAlign },
-  error: { backgroundColor: colors.errorLight, padding: 12, borderRadius: 12 },
-  chip: { flexDirection: rtlRow, alignItems: 'center', justifyContent: 'center', flexShrink: 1, gap: 6, minHeight: 48, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 15, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.surface },
-  chipSelected: { backgroundColor: colors.sage, borderColor: colors.green },
-  badge: { alignSelf: rtlStart, paddingHorizontal: 10, paddingVertical: 4, borderRadius: 9, backgroundColor: colors.sage },
+  input: { minHeight: 56, paddingHorizontal: 16, paddingVertical: 12, borderRadius: radius.control, borderWidth: 2, borderColor: colors.line, backgroundColor: colors.background, color: colors.ink, fontFamily: fonts.regular, fontSize: 18, textAlign: rtlTextAlign },
+  error: { backgroundColor: colors.errorLight, padding: 12, borderRadius: radius.control },
+  chip: { flexDirection: rtlRow, alignItems: 'center', justifyContent: 'center', flexShrink: 1, gap: 6, minHeight: 48, paddingHorizontal: 16, paddingVertical: 10, borderRadius: radius.control, borderWidth: 2, borderColor: colors.line, backgroundColor: colors.surface },
+  chipSelected: { backgroundColor: colors.sage, borderColor: colors.green, ...hardShadow, shadowOffset: { width: 3, height: 3 } },
+  badge: { alignSelf: rtlStart, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 2, backgroundColor: colors.shadow, borderLeftWidth: 3, borderLeftColor: colors.yellow },
   pageHeader: { paddingHorizontal: 24, paddingVertical: 16, alignItems: 'flex-start', width: '100%', maxWidth: 620, alignSelf: 'center' },
   pageContent: { padding: 24, gap: 22, width: '100%', maxWidth: 620, alignSelf: 'center' },
   footer: { paddingHorizontal: 24, paddingTop: 12, borderTopWidth: 1, borderColor: colors.line, backgroundColor: colors.background, gap: 8, width: '100%', maxWidth: 620, alignSelf: 'center' },
-  emptyIcon: { alignSelf: rtlStart, padding: 15, borderRadius: 20, backgroundColor: colors.sage },
+  emptyIcon: { alignSelf: rtlStart, padding: 15, borderRadius: radius.control, backgroundColor: colors.sage },
 });

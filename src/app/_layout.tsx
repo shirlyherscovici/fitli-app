@@ -8,8 +8,7 @@ import { Heebo_400Regular } from '@expo-google-fonts/heebo/400Regular';
 import { Heebo_500Medium } from '@expo-google-fonts/heebo/500Medium';
 import { Heebo_700Bold } from '@expo-google-fonts/heebo/700Bold';
 import { Heebo_800ExtraBold } from '@expo-google-fonts/heebo/800ExtraBold';
-import { Fredoka_600SemiBold } from '@expo-google-fonts/fredoka/600SemiBold';
-import { Fredoka_700Bold } from '@expo-google-fonts/fredoka/700Bold';
+import { BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue/400Regular';
 import { AppProvider, useAppData } from '../data/AppProvider';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { Body, Button, Card, Page, Title } from '../components/ui';
@@ -33,7 +32,7 @@ function Routes() {
   </Stack>;
 }
 export default function RootLayout() {
-  const [fontsLoaded, fontError] = useFonts({ Heebo_400Regular, Heebo_500Medium, Heebo_700Bold, Heebo_800ExtraBold, Fredoka_600SemiBold, Fredoka_700Bold });
+  const [fontsLoaded, fontError] = useFonts({ Heebo_400Regular, Heebo_500Medium, Heebo_700Bold, Heebo_800ExtraBold, BebasNeue_400Regular });
   if (!fontsLoaded && !fontError) return <View style={{ flex: 1, backgroundColor: colors.background, justifyContent: 'center' }}><ActivityIndicator color={colors.green} /></View>;
   return <SafeAreaProvider><AppProvider><StatusBar style="light" /><Routes /></AppProvider></SafeAreaProvider>;
 }
